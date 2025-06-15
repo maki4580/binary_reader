@@ -13,32 +13,19 @@ static void readDataPair(FILE* file, long offset, DataPair* dataPair) {
 }
 
 // バイナリファイルからデータを読み込む関数
-DataPair* readBinaryData(const char* filename, int dataCount) {
+int readBinaryData(const char* filename, DataPair* dataArray, int dataCount) {
     FILE* file = fopen(filename, "rb");
     if (file == NULL) {
-        printf("ファイルを開けませんでした: %s\n", filename);
-        return NULL;
+        return 1; // ファイルオープン失敗
     }
 
-    // データ数分の構造体配列を確保
-    DataPair* dataArray = (DataPair*)malloc(dataCount * sizeof(DataPair));
-    if (dataArray == NULL) {
-        printf("メモリ確保に失敗しました\n");
-        fclose(file);
-        return NULL;
-    }
-
-    // 指定された数だけforループでデータを読み取り
     for (int i = 0; i < dataCount; i++) {
-        // 各データペアの位置 (各ペアは4バイト: value1(2バイト) + value2(2バイト))
         long offset = i * sizeof(DataPair);
-        
-        // 専用の関数でデータを読み取る
         readDataPair(file, offset, &dataArray[i]);
     }
 
     fclose(file);
-    return dataArray;
+    return 0; // 正常終了
 }
 
 // データの表示関数

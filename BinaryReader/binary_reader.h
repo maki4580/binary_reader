@@ -8,7 +8,7 @@ typedef struct {
 } DataPair;
 
 // バイナリファイルからデータを読み込む関数
-DataPair* readBinaryData(const char* filename, int dataCount);
+int readBinaryData(const char* filename, DataPair* dataArray, int dataCount);
 
 // データの表示関数
 void displayData(DataPair* dataArray, int dataCount);

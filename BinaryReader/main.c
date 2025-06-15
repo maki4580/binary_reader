@@ -18,9 +18,18 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // バイナリデータを読み込む
-    DataPair* dataArray = readBinaryData(filename, dataCount);
+    // DataPair配列のメモリ確保
+    DataPair* dataArray = (DataPair*)malloc(sizeof(DataPair) * dataCount);
     if (dataArray == NULL) {
+        printf("メモリ確保に失敗しました\n");
+        return 1;
+    }
+
+    // バイナリデータを読み込む
+    int result = readBinaryData(filename, dataArray, dataCount);
+    if (result != 0) {
+        printf("データの読み込みに失敗しました（エラーコード: %d）\n", result);
+        free(dataArray);
         return 1;
     }
 
